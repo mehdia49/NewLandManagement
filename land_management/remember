@@ -1,0 +1,8 @@
+ACTIVATING VIRTUAL ENVIRONMENT
+.\Scripts\activate
+.
+.
+.
+.
+RUNNING SERVER
+py manage.py runserver

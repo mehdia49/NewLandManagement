@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Plot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="POST" action="{% url 'updatedplot' plot.plot_id %}">
+        {% csrf_token %}
+        <label for="location">Location:</label>
+        <select name="province" id="province" onchange="updateCities()" required>
+            <option value="" disabled selected>Select Province</option>
+            <option value="punjab">Punjab</option>
+            <option value="sindh">Sindh</option>
+            <option value="kpk">Khyber Pakhtunkhwa</option>
+            <option value="balochistan">Balochistan</option>
+        </select>
+        <br>
+        <select name="city" id="city" onchange="updateLocations()" required>
+            <option value="" disabled selected>Select City</option>
+        </select>
+        <br>
+        <select name="location" id="location" required>
+            <option value="" disabled selected>Select Location</option>
+        </select>
+        <br>
+
+        <label for="area">Area(km²):</label>
+        <input type="number" id="area" name="area" value="{{ plot.area }}" step="10" min= "50"required>
+
+        
+        <button type="submit">Save</button>
+    </form>
+
+    <script>
+        function updateCities() {
+            var provinceSelect = document.getElementById('province');
+            var citySelect = document.getElementById('city');
+    
+            // Clear previous city options
+            citySelect.innerHTML = '<option value="" disabled selected>Select City</option>';
+    
+            // Add new cities based on the selected province
+            if (provinceSelect.value === 'punjab') {
+                addOption(citySelect, 'lahore', 'Lahore');
+                addOption(citySelect, 'rawalpindi', 'Rawalpindi');
+addOption(citySelect, 'multan', 'Multan');  // New city
+                addOption(citySelect, 'faisalabad', 'Faisalabad');  // New city
+            } else if (provinceSelect.value === 'sindh') {
+                addOption(citySelect, 'karachi', 'Karachi');
+                addOption(citySelect, 'hyderabad', 'Hyderabad');
+addOption(citySelect, 'sukkur', 'Sukkur');  // New city
+                addOption(citySelect, 'larkana', 'Larkana');  // New city
+            } else if (provinceSelect.value === 'kpk') {
+                addOption(citySelect, 'peshawar', 'Peshawar');
+                addOption(citySelect, 'abbottabad', 'Abbottabad');
+addOption(citySelect, 'mardan', 'Mardan');  // New city
+                addOption(citySelect, 'swat', 'Swat');  // New city
+            } else if (provinceSelect.value === 'balochistan') {
+                addOption(citySelect, 'quetta', 'Quetta');
+                addOption(citySelect, 'gwadar', 'Gwadar');
+addOption(citySelect, 'turbat', 'Turbat');  // New city
+                addOption(citySelect, 'zhob', 'Zhob');  // New city
+            }
+
+            // Add more conditions for additional provinces
+    
+            // Enable the city dropdown
+            citySelect.disabled = false;
+        }
+    
+        function updateLocations() {
+            var citySelect = document.getElementById('city');
+            var locationSelect = document.getElementById('location');
+    
+            // Clear previous location options
+            locationSelect.innerHTML = '<option value=""  selected>Select Location</option>';
+    
+            // Add new locations based on the selected city
+            if (citySelect.value === 'lahore') {
+                addOption(locationSelect, 'theMall', 'The Mall');
+                addOption(locationSelect, 'shalimarGardens', 'Shalimar Gardens');
+                addOption(locationSelect, 'badshahiMosque', 'Badshahi Mosque');
+                addOption(locationSelect, 'fortressStadium', 'Fortress Stadium');
+            } else if (citySelect.value === 'karachi') {
+                addOption(locationSelect, 'cliftonBeach', 'Clifton Beach');
+                addOption(locationSelect, 'quaidsMausoleum', 'Quaid\'s Mausoleum');
+                addOption(locationSelect, 'karachiZoo', 'Karachi Zoo');
+                addOption(locationSelect, 'empressMarket', 'Empress Market');
+            } else if (citySelect.value === 'multan') {
+                addOption(locationSelect, 'shahRuknEAlamShrine', 'Shah Rukn-e-Alam Shrine');
+                addOption(locationSelect, 'multanFort', 'Multan Fort');
+                addOption(locationSelect, 'bahaUdDinZakariyaUniversity', 'Baha-ud-din Zakariya University');
+                addOption(locationSelect, 'chenabBridge', 'Chenab Bridge');
+            } else if (citySelect.value === 'faisalabad') {
+                addOption(locationSelect, 'clockTower', 'Clock Tower');
+                addOption(locationSelect, 'jinnahGardens', 'Jinnah Gardens');
+                addOption(locationSelect, 'dGroundPark', 'D Ground Park');
+                addOption(locationSelect, 'lyallpurMuseum', 'Lyallpur Museum');
+            } else if (citySelect.value === 'sukkur') {
+                addOption(locationSelect, 'lansdowneBridge', 'Lansdowne Bridge');
+                addOption(locationSelect, 'masoomShahJoMinaro', 'Masoom Shah Jo Minaro');
+                addOption(locationSelect, 'sukkurBarrage', 'Sukkur Barrage');
+                addOption(locationSelect, 'labEMehran', 'Lab-e-Mehran');
+            } else if (citySelect.value === 'larkana') {
+                addOption(locationSelect, 'mohenjoDaroArchaeologicalSite', 'Mohenjo-daro Archaeological Site');
+                addOption(locationSelect, 'garhiKhudaBakhsh', 'Garhi Khuda Bakhsh');
+                addOption(locationSelect, 'jinnahBagh', 'Jinnah Bagh');
+                addOption(locationSelect, 'chandkaMedicalCollege', 'Chandka Medical College');
+            }else if (citySelect.value === 'peshawar') {
+                addOption(locationSelect, 'peshawarMuseum', 'Peshawar Museum');
+                addOption(locationSelect, 'balaHisarFort', 'Bala Hisar Fort');
+                addOption(locationSelect, 'qissaKhwaniBazaar', 'Qissa Khwani Bazaar');
+                addOption(locationSelect, 'mahabatKhanMosque', 'Mahabat Khan Mosque');
+            } else if (citySelect.value === 'abbottabad') {
+                addOption(locationSelect, 'ilyasiMosque', 'Ilyasi Mosque');
+                addOption(locationSelect, 'thandiani', 'Thandiani');
+                addOption(locationSelect, 'shimlaHill', 'Shimla Hill');
+                addOption(locationSelect, 'raeesKhanaBazar', 'Raees Khana Bazar');
+            } else if (citySelect.value === 'mardan') {
+                addOption(locationSelect, 'takhtIBahi', 'Takht-i-Bahi');
+                addOption(locationSelect, 'mardanMuseum', 'Mardan Museum');
+                addOption(locationSelect, 'katlangPark', 'Katlang Park');
+                addOption(locationSelect, 'rajjarPark', 'Rajjar Park');
+            } else if (citySelect.value === 'swat') {
+                addOption(locationSelect, 'mingora', 'Mingora');
+                addOption(locationSelect, 'malamJabba', 'Malam Jabba');
+                addOption(locationSelect, 'fizagatPark', 'Fizagat Park');
+                addOption(locationSelect, 'marghazar', 'Marghazar');
+            } else if (citySelect.value === 'quetta') {
+                addOption(locationSelect, 'hannaLake', 'Hanna Lake');
+                addOption(locationSelect, 'ziarat', 'Ziarat');
+                addOption(locationSelect, 'hazarganjiChiltanNationalPark', 'Hazarganji Chiltan National Park');
+                addOption(locationSelect, 'balochistanArtsCouncil', 'Balochistan Arts Council');
+            } else if (citySelect.value === 'gwadar') {
+                addOption(locationSelect, 'gwadarPort', 'Gwadar Port');
+                addOption(locationSelect, 'ormaraBeach', 'Ormara Beach');
+                addOption(locationSelect, 'hammerhead', 'Hammerhead');
+                addOption(locationSelect, 'gwadarMarineDrive', 'Gwadar Marine Drive');
+            }
+            // Add more conditions for additional cities
+        }
+    
+        function addOption(select, value, text) {
+            var option = document.createElement('option');
+            option.value = value;
+            option.text = text;
+            select.add(option);
+        }
+    </script>
+</body>
+
+</html>

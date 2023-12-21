@@ -1,0 +1,95 @@
+<!-- filtertransactions.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filtered Transactions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        li:hover {
+            background-color: #f0f0f0;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Filtered Transactions</h2>
+    
+    <form method="GET" action="{% url 'filtertrans' %}">
+        <label for="keyword">Enter Keyword:</label>
+        <input type="text" name="keyword" id="keyword" value="{{ keyword }}" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if keyword %}
+        <p>Filtering transactions with keyword: "{{ keyword }}"</p>
+    {% endif %}
+
+    <ul>
+        {% for transaction in transactions %}
+            <li>
+                Transaction ID: {{ transaction.transaction_id }}<br>
+                Transaction Type: {{ transaction.transaction_type }}<br>
+                Plot ID: {{ transaction.plot.plot_id }}<br>
+                Location: {{ transaction.plot.location }}<br>
+                Area: {{ transaction.plot.area }} km²<br>
+                Transaction Date: {{ transaction.transaction_date }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

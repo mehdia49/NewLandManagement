@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Valuation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="POST" action="{% url 'updatedvalue' value.valuation_id %}">
+        {% csrf_token %}
+
+        <label for="valuation_amount">Valued Amount:</label>
+        <input type="number" id="valuation_amount" name="valuation_amount" value="{{ value.valuation_amount }}" step="100" min= "5000"required>
+
+        <label for="valuation_date">Date of Valuation:</label>
+        <input type="date" id="valuation_date" name="valuation_date" value="{{ value.valuation_date }}"required>
+
+        <label for="market_value">Market Valuation Amount:</label>
+        <input type="number" id="market_value" name="market_value" value="{{ value.market_value }}" step="100" min= "3000"required>
+        
+        <button type="submit">Save</button>
+    </form>
+</body>
+
+</html>

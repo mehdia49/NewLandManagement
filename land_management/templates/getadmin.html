@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            position: relative;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+
+        li:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Style for the delete button */
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff6666;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none; /* Added to remove underline from the link */
+        }
+
+        .delete-button:hover {
+            background-color: #cc0000;
+        }
+
+        /* Style for the update button */
+        .update-button {
+            position: absolute;
+            top: 10px;
+            right: 70px; /* Adjusted for spacing */
+            background-color: #66ccff;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none; /* Added to remove underline from the link */
+        }
+
+        .update-button:hover {
+            background-color: #007bb5;
+        }
+
+        .create-button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .create-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<ul>
+    {% for x in admin %}
+        <li>
+            <a href="deladmin/{{ x.admin_id }}"><button class="delete-button">Delete</button></a>
+            <a href="updateadmin/{{ x.admin_id }}"><button class="update-button">Update</button></a>
+            <strong>ID:</strong> {{ x.admin_id }}<br>
+            <strong>Firstname:</strong> {{ x.first_name }}<br>
+            <strong>Lastname:</strong> {{ x.last_name }}<br>
+            <strong>Username:</strong> {{ x.user.username }}<br>
+            <strong>Password:</strong> {{ x.user.password }}
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="enteradmin"><button class="create-button">Create Admin</button></a>
+
+</body>
+</html>

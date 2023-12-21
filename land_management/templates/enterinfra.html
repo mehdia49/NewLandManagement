@@ -1,0 +1,88 @@
+<!-- infrastructure_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Infrastructure</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Infrastructure</h1>
+
+    <form method="POST" action="{% url 'enterinfra' %}">
+        {% csrf_token %}
+
+        <label for="infrastructure_type">Infrastructure Type:</label>
+        <select name="infrastructure_type" id="infrastructure_type" required>
+            {% for infraType in infraTypes %}
+                <option value={{ infraType.1 }}>{{ infraType.0 }}</option>
+            {% endfor %}
+            {% comment %} <!-- Assuming InfrastructureType is an Enum -->
+            <option value="{{ InfrastructureType.ROAD.value }}">ROAD</option>
+            <option value="{{ InfrastructureType.BRIDGE.value }}">BRIDGE</option>
+            <option value="{{ InfrastructureType.BUILDING.value }}">BUILDING</option>
+            <option value="{{ InfrastructureType.OTHER.value }}">OTHER</option>
+            <!-- Add more options as needed --> {% endcomment %}
+        </select>
+
+        <label for="plot">Plot ID:</label>
+        <select name="plot" id="plot" required>
+            {% for plot in plots %}
+                <option value="{{ plot.plot_id }}">{{ plot.location }} - {{ plot.plot_id }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="infrastructure_name">Infrastructure Name:</label>
+        <input type="text" name="infrastructure_name" id="infrastructure_name" required><br>
+
+        <button type="submit">Add Infrastructure</button>
+    </form>
+</body>
+</html>

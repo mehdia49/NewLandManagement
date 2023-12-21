@@ -1,0 +1,113 @@
+<!-- land_tenure_display.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Land Tenures</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        li:hover {
+            background-color: #f0f0f0;
+        }
+
+        li::before {
+            content: "🏡"; /* Add a house emoji before each list item */
+            margin-right: 10px;
+        }
+
+        /* Add more styles as needed */
+
+        .create-button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .create-button:hover {
+            background-color: #45a049;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff6666;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    
+        .delete-button:hover {
+            background-color: #cc0000;
+        }
+    
+        /* Style for the update button */
+        .update-button {
+            position: absolute;
+            top: 10px;
+            right: 90px; /* Adjusted for spacing */
+            background-color: #66ccff;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    
+        .update-button:hover {
+            background-color: #007bb5;
+        }
+    </style>
+    <!-- Add any additional styles or scripts if needed -->
+</head>
+<body>
+    <h1>Land Tenures</h1>
+
+    <ul>
+        {% for tenure_instance in tenure_list %}
+            <li>
+                <a href="deltenure/{{tenure_instance.tenure_id}}"><button class="delete-button">Delete</button></a>
+                <a href="updatetenure/{{tenure_instance.tenure_id}}"><button class="update-button">Update</button></a>
+
+                Tenure ID: {{ tenure_instance.tenure_id }}<br>
+                Plot ID: {{ tenure_instance.plot.plot_id }}<br>
+                Location: {{ tenure_instance.plot.location }}<br>
+                Tenure Type: {{ tenure_instance.tenure_type }}<br>
+                Start Date: {{ tenure_instance.start_date }}<br>
+                End Date: {{ tenure_instance.end_date }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="entertenure"><button class="create-button">Create Tenure</button></a>
+</body>
+</html>

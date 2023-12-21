@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DJANGO TASK</title>
+    <style>
+        body {
+            background-color: #dad8d8;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            color: #000;
+            background-color: #b4bbbb;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>USER FORM</h1>
+    <form method="POST" action="{% url 'saveform' %}">
+        {% csrf_token %}
+        <label for="first-name">First Name</label>
+        <input type="text" name="firstname" placeholder="Enter your first name" required>
+
+        <label for="last-name">Last Name</label>
+        <input type="text" name="lastname" placeholder="Enter your last name" required>
+
+        <label for="date-of-birth">Birth Date</label>
+        <input type="date" name="DOB" required>
+
+        <label for="city">Select your city name</label>
+        <select name="city">
+            <option value="lahore">Lahore</option>
+            <option value="sahiwal">Sahiwal</option>
+            <option value="okara">Okara</option>
+        </select>
+
+        <label for="phone-number">Phone Number</label>
+        <input type="text" name="phone" placeholder="03xx xxxxxxx" required>
+
+        <label for="email-id">Your Email ID</label>
+        <input type="text" name="email" placeholder="Email ID" required>
+
+        <button type="submit">SUBMIT</button>
+    </form>
+</body>
+</html>

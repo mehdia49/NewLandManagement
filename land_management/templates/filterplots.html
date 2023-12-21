@@ -1,0 +1,105 @@
+<!-- filterplots.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filtered Plots</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 300px;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        li:hover {
+            background-color: #f0f0f0;
+        }
+
+        li::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Additional styling for specific elements */
+        .plot-id {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .location {
+            color: #28a745;
+        }
+
+        .area {
+            color: #17a2b8;
+        }
+
+        .owner {
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <h2>Filtered Plots for Keyword: {{ keyword }}</h2>
+
+    <form method="GET" action="{% url 'filterplot' %}">
+        <label for="keyword">Enter Keyword:</label>
+        <input type="text" name="keyword" id="keyword" value="{{ keyword }}" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <ul>
+        {% for plot in plots %}
+            <li>
+                <span class="plot-id">Plot ID:</span> {{ plot.plot_id }}<br>
+                <span class="location">Location:</span> {{ plot.location }}<br>
+                <span class="area">Area:</span> {{ plot.area }} km²<br>
+                <span class="owner">Owner:</span> {{ plot.ownerid.owner_id }}<br>
+                <!-- Add other fields as needed -->
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
