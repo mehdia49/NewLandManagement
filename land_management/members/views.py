@@ -42,7 +42,7 @@ def enterinfra(request):
             plot=plot_instance,
             infrastructure_name=infrastructure_name
         )
-        return redirect('getinfra')  # Redirect to a success page
+        return redirect('getinfra') 
     plots = LandPlot.objects.all()
     return render(request, 'enterinfra.html', {'plots': plots,'infraTypes': [[infraType.name, infraType.value] for infraType in InfrastructureType]})
 
@@ -56,13 +56,8 @@ def entervalue(request):
         plot_instance = LandPlot.objects.get(plot_id=plot_id)
 
         LandValuation.objects.create(
-            plot=plot_instance,
-            valuation_amount=valuation_amount,
-            valuation_date=valuation_date,
-            market_value=market_value
-        )
-
-        return redirect('getvalue')  # Redirect to a success page
+            plot=plot_instance,valuation_amount=valuation_amount,valuation_date=valuation_date,market_value=market_value)
+        return redirect('getvalue')  
 
     plots = LandPlot.objects.all()
     return render(request, 'entervalue.html', {'plots': plots})
@@ -158,7 +153,7 @@ def enterplot(request):
             ownerid=owner
         )
 
-        return redirect('getplot')  # Redirect to a success page
+        return redirect('getplot')  
 
     owners = LandOwner.objects.all()
     return render(request, 'enterplot.html', {'owners': owners})
@@ -362,6 +357,34 @@ def ownerid(request, owner_id):
     owner = get_object_or_404(LandOwner, owner_id=owner_id)
     return render(request, 'getowner.html', {'owner': [owner]})
 
+def adminid(request, admin_id):
+    admin = get_object_or_404(Admin, admin_id=admin_id)
+    return render(request, 'getadmin.html', {'admin': [admin]})
+
+def userid(request, user_id):
+    user = get_object_or_404(User, user_id=user_id)
+    return render(request, 'getuser.html', {'user_list': [user]})
+
+def tenureid(request, tenure_id):
+    tenure = get_object_or_404(LandTenure, tenure_id=tenure_id)
+    return render(request, 'gettenure.html', {'tenure_list': [tenure]})
+
+def plotid(request, plot_id):
+    plot = get_object_or_404(LandPlot, plot_id=plot_id)
+    return render(request, 'getplot.html', {'plot_list': [plot]})
+
+def transid(request, transaction_id):
+    trans = get_object_or_404(LandTransaction, transaction_id=transaction_id)
+    return render(request, 'gettrans.html', {'trans_list': [trans]})
+
+def valueid(request, valuation_id):
+    value = get_object_or_404(LandValuation, valuation_id=valuation_id)
+    return render(request, 'getvalue.html', {'value_list': [value]})
+
+def infraid(request, infrastructure_id):
+    infra = get_object_or_404(Infrastructure, infrastructure_id=infrastructure_id)
+    return render(request, 'getinfra.html', {'infrastructure_list': [infra]})
+
 def ownerdob(request, age):
     birthdate_limit = date.today() - timedelta(days=365 * age)
     owners_above_age = LandOwner.objects.filter(date_of_birth__lte=birthdate_limit)
@@ -390,12 +413,36 @@ def filtervalue(request):
 
 def filtertrans(request):
     keyword = request.GET.get('keyword', '')
-    
     if keyword:
         transactions = LandTransaction.objects.filter(
             Q(transaction_type__icontains=keyword) 
         ).select_related('plot')
     else:
         transactions = LandTransaction.objects.all().select_related('plot')
-
     return render(request, 'filtertrans.html', {'transactions': transactions, 'keyword': keyword})
+
+def filtertenure(request):
+    keyword = request.GET.get('keyword', '')
+    if keyword:
+        tenures = LandTenure.objects.filter(
+            Q(tenure_type__icontains=keyword) |
+            Q(plot__location__icontains=keyword)
+        ).select_related('plot')
+    else:
+        tenures = LandTenure.objects.all().select_related('plot')
+    return render(request, 'filtertenure.html', {'tenures': tenures, 'keyword': keyword})
+
+def filterinfra(request):
+    keyword = request.GET.get('keyword', '')
+    if keyword:
+        infrastructures = Infrastructure.objects.filter(
+            Q(infrastructure_type__icontains=keyword) |
+            Q(infrastructure_name__icontains=keyword) |
+            Q(plot__location__icontains=keyword)
+        ).select_related('plot')
+    else:
+        infrastructures = Infrastructure.objects.all().select_related('plot')
+    return render(request, 'filterinfra.html', {'infrastructures': infrastructures, 'keyword': keyword})
+
+def index(request):
+    return render(request, 'index.html')

@@ -108,11 +108,11 @@
                     Password: {{ user_instance.password }}<br>
                     
                     {% if user_instance.admin %}
-                        Admin: {{ user_instance.admin }}<br>
+                        Admin ID: {{ user_instance.admin }}<br>
                     {% endif %}
 
                     {% if user_instance.owner %}
-                        Owner: {{ user_instance.owner }}<br>
+                        Owner ID: {{ user_instance.owner }}<br>
                     {% endif %}
                 </li>
             {% endfor %}
