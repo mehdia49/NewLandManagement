@@ -37,11 +37,7 @@ def enterinfra(request):
 
         plot_instance = LandPlot.objects.get(plot_id=plot_id)
 
-        Infrastructure.objects.create(
-            infrastructure_type=infrastructure_type_str,
-            plot=plot_instance,
-            infrastructure_name=infrastructure_name
-        )
+        Infrastructure.objects.create(infrastructure_type=infrastructure_type_str,plot=plot_instance,infrastructure_name=infrastructure_name)
         return redirect('getinfra') 
     plots = LandPlot.objects.all()
     return render(request, 'enterinfra.html', {'plots': plots,'infraTypes': [[infraType.name, infraType.value] for infraType in InfrastructureType]})
@@ -76,10 +72,9 @@ def entertenure(request):
             start_date=start_date,
             end_date=end_date
         )
-        return redirect('gettenure')  # Redirect to a success page
+        return redirect('gettenure') 
     plots = LandPlot.objects.all()
     return render(request, 'entertenure.html', {'plots': plots,'tenureTypes': [[tenureType.name, tenureType.value] for tenureType in TenureType]})
-
 
 def enterowner(request):
     if request.method == 'POST':
@@ -127,8 +122,6 @@ def entertrans(request):
         transaction_type_str = request.POST.get('transaction_type')
         plot_id = request.POST.get('plot')
         transaction_date = request.POST.get('transaction_date')
-        
-        print("transaction_type_str -> " + str(transaction_type_str))
         plot_instance = LandPlot.objects.get(plot_id=plot_id)
 
         LandTransaction.objects.create(
