@@ -35,6 +35,7 @@ class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=10, default=" ")
     password = models.CharField(max_length=50, default=" ")
+    location = models.TextField(default=" ")
     admin = models.OneToOneField(Admin, on_delete=models.CASCADE, null=True)
     owner = models.OneToOneField(LandOwner, on_delete=models.CASCADE, null=True)
 

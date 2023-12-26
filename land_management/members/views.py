@@ -95,10 +95,14 @@ def enteruser(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        location = request.POST.get('location')
         admin_id = request.POST.get('admin_id')
         owner_id = request.POST.get('owner_id')
-
-        user_instance = User(username=username, password=password)
+        province = request.POST.get('province')
+        city = request.POST.get('city')
+    
+        user_instance = User(username=username, password=password, location=f'{province}, {city}, {location}')
+        
         if admin_id:
             try:
                 admin_instance = Admin.objects.get(pk=admin_id)
@@ -111,7 +115,7 @@ def enteruser(request):
                 user_instance.owner = owner_instance
             except LandOwner.DoesNotExist:
                 pass
-
+        
         user_instance.save()
 
         return redirect('getuser') 
@@ -235,11 +239,30 @@ def updatevalue(request, valuation_id):
 def updated(request, user_id):
     x=request.POST['username']
     z=request.POST['password']
+    w = request.POST['location']
+    p = request.POST.get('province')
+    c = request.POST.get('city')
     user = User.objects.get(user_id=user_id)
+    y = f'{p}, {c}, {w}'
+    user.location = y
     user.username=x
     user.password=z
     user.save()
     return redirect("getuser")
+
+
+def updatedplot(request, plot_id):
+    x = request.POST['location']
+    p = request.POST.get('province')
+    c = request.POST.get('city')
+    y = request.POST['area']
+    plot = LandPlot.objects.get(plot_id=plot_id)
+    x = f'{p}, {c}, {x}'
+    plot.location = x
+    plot.area = y
+    plot.save()
+    return redirect("getplot")
+
 
 def updatedadmin(request, admin_id):
     a=request.POST['first_name']
@@ -289,18 +312,6 @@ def updatedtrans(request, transaction_id):
     trans.transaction_date=y
     trans.save()
     return redirect("gettrans")
-
-def updatedplot(request, plot_id):
-    x = request.POST['location']
-    p = request.POST.get('province')
-    c = request.POST.get('city')
-    y = request.POST['area']
-    plot = LandPlot.objects.get(plot_id=plot_id)
-    x = f'{p}, {c}, {x}'
-    plot.location = x
-    plot.area = y
-    plot.save()
-    return redirect("getplot")
 
 def updatedvalue(request, valuation_id):
     x=request.POST['valuation_amount']
