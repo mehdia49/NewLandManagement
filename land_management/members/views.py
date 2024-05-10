@@ -408,7 +408,7 @@ def filterplot(request):
 
 def filtervalue(request):
     min_valuation = request.GET.get('min_valuation', 0)
-    max_valuation = request.GET.get('max_valuation', 200000)
+    max_valuation = request.GET.get('max_valuation', 900)
     valuations = LandValuation.objects.filter(
         valuation_amount__gte=min_valuation,
         valuation_amount__lte=max_valuation
@@ -450,3 +450,4 @@ def filterinfra(request):
 
 def index(request):
     return render(request, 'index.html')
+
